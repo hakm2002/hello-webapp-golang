@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    tools {
-        sonarRunner 'sonar'
-    }
-
     environment {
         SONAR_TOKEN = credentials('hello-webapp-golang')
     }
@@ -25,20 +21,23 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'go build -o app'
+                sh '''
+                  go build -o app
+                '''
                 archiveArtifacts artifacts: 'app', fingerprint: true
             }
         }
 
         stage('Sonar Analysis') {
             steps {
-                sh '''
-                  sonar-scanner \
-                    -Dsonar.projectKey=hello-webapp-golang \
-                    -Dsonar.sources=. \
-                    -Dsonar.host.url=https://sonarcloud.io \
-                    -Dsonar.login=$SONAR_TOKEN
-                '''
+                withSonarQubeEnv('SonarQube') {
+                    sh '''
+                      sonar-scanner \
+                        -Dsonar.projectKey=hello-webapp-golang \
+                        -Dsonar.sources=. \
+                        -Dsonar.login=$SONAR_TOKEN
+                    '''
+                }
             }
         }
     }
