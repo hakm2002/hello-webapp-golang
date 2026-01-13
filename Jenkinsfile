@@ -24,15 +24,13 @@ pipeline {
 
         stage('Sonar Analysis') {
             steps {
-                withSonarQubeEnv('SonarQube') {
-                    sh '''
-                      sonar-scanner \
-                        -Dsonar.projectKey=hello-webapp-golang \
-                        -Dsonar.sources=. \
-                        -Dsonar.host.url=https://sonarcloud.io \
-                        -Dsonar.login=$sonar_token
-                    '''
-                }
+                sh '''
+                  sonar-scanner \
+                    -Dsonar.projectKey=hello-webapp-golang \
+                    -Dsonar.sources=. \
+                    -Dsonar.host.url=https://sonarcloud.io \
+                    -Dsonar.login=$SONAR_TOKEN
+                '''
             }
         }
 
@@ -45,9 +43,7 @@ pipeline {
 
     post {
         always {
-            node {
             cleanWs()
-            }
         }
     }
 }
