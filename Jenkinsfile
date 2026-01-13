@@ -31,4 +31,20 @@ pipeline {
 
         stage('Sonar Analysis') {
             steps {
-                withSonarQubeE
+                withSonarQubeEnv() {
+                    sh '''
+                      sonar-scanner \
+                        -Dsonar.projectKey=hello-webapp-golang \
+                        -Dsonar.sources=. \
+                        -Dsonar.host.url=https://sonarcloud.io \
+                        -Dsonar.login=$SONAR_TOKEN
+                    '''
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline finished'
+        }
