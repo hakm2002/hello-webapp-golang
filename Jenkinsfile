@@ -33,17 +33,11 @@ pipeline {
                 '''
             }
         }
-
-        stage('Build Docker Image') {
-            steps {
-                sh 'docker build -t dab8106/hellogo .'
-            }
-        }
     }
 
     post {
         always {
-            cleanWs()
+            echo 'Pipeline finished'
         }
     }
 }
