@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        SONAR_TOKEN = credentials('SONAR_TOKEN')
+        SONAR_TOKEN = credentials('sonar_token')
     }
 
     stages {
@@ -30,7 +30,7 @@ pipeline {
                         -Dsonar.projectKey=hello-webapp-golang \
                         -Dsonar.sources=. \
                         -Dsonar.host.url=https://sonarcloud.io \
-                        -Dsonar.login=$SONAR_TOKEN
+                        -Dsonar.login=$sonar_token
                     '''
                 }
             }
@@ -45,7 +45,9 @@ pipeline {
 
     post {
         always {
+            node {
             cleanWs()
+            }
         }
     }
 }
