@@ -29,7 +29,7 @@ pipeline {
         stage('Sonar Analysis') {
             steps {
                 sh '''
-                  sonar-scanner \
+                  sonar \
                     -Dsonar.projectKey=hello-webapp-golang \
                     -Dsonar.sources=. \
                     -Dsonar.host.url=https://sonarcloud.io \
