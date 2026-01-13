@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        SONAR_TOKEN = credentials('sonar')
+        SONAR_TOKEN = credentials('hello-webapp-golang')
     }
 
     stages {
