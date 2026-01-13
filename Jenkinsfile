@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    tools {
+        sonarScanner 'sonar'
+    }
+
     environment {
         SONAR_TOKEN = credentials('hello-webapp-golang')
     }
@@ -29,7 +33,7 @@ pipeline {
         stage('Sonar Analysis') {
             steps {
                 sh '''
-                  sonar \
+                  sonar-scanner \
                     -Dsonar.projectKey=hello-webapp-golang \
                     -Dsonar.sources=. \
                     -Dsonar.host.url=https://sonarcloud.io \
